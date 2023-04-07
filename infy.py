@@ -1,20 +1,10 @@
-import paho.mqtt.client as mqtt
+from flask import Flask,render_template,request,redirect,session
 
-infy_server='172.31.23.99'
-infy_port=1884
-client=mqtt.Client()
-client.connect(infy_server,infy_port)
+app=Flask(__name__)
 
-client.subscribe('infy/data')
+@app.route('/')
+def homePage():
+    return 'WELCOME TO INFY API SERVER'
 
-def publishMessage(k):
-    client.publish('B7/data',k)
-
-def notification(client,userdata,msg):
-    t=msg.payload
-    t=t.decode('utf-8')
-    print(t)
-    publishMessage('INFOSYS')
-
-client.on_message=notification
-client.loop_forever()
+if __name__=="__main__":
+    app.run(host='0.0.0.0',port=5001)
