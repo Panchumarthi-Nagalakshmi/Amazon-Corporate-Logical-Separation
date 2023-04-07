@@ -1,20 +1,10 @@
-import paho.mqtt.client as mqtt
+from flask import Flask,render_template,request,redirect,session
 
-tcs_server='172.31.31.169'
-tcs_port=1883
-client=mqtt.Client()
-client.connect(tcs_server,tcs_port)
+app=Flask(__name__)
 
-client.subscribe('tcs/data')
+@app.route('/')
+def homePage():
+    return 'WELCOME TO TCS API SERVER'
 
-def publishMessage(k):
-    client.publish('B7/data',k)
-
-def notification(client,userdata,msg):
-    t=msg.payload
-    t=t.decode('utf-8')
-    print(t)
-    publishMessage('TCS')
-
-client.on_message=notification
-client.loop_forever()
+if __name__=="__main__":
+    app.run(host='0.0.0.0',port=5001)
